@@ -3,6 +3,7 @@
 # gcp-quarkus
 
 ![Java CI with Maven](https://github.com/didier-durand/gcp-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdidier-durand%2Fgcp-quarkus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdidier-durand%2Fgcp-quarkus?ref=badge_shield)
 
 Sample Quarkus Java application adapted to become executable as microservice packaged in Docker container on Google Cloud Run.
 
@@ -46,3 +47,7 @@ mvn io.quarkus:quarkus-maven-plugin:1.3.1.Final:create \
 
 <img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Quarkus-Success-Screen.jpg" height="600">
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdidier-durand%2Fgcp-quarkus.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdidier-durand%2Fgcp-quarkus?ref=badge_large)
