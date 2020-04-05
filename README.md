@@ -1,17 +1,43 @@
+
+<img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/quarkus-logo.png" height="100">     <img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/google-cloud-run-logo.png" height="100">   <img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/docker-logo.png" height="100"><img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/java-logo.png" height="100">
+
 # gcp-quarkus
-Sample Quarkus application adapted to become executable on Google Cloud Run
 
-First
+![Java CI with Maven](https://github.com/didier-durand/gcp-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg)
 
+Sample Quarkus application adapted to become executable on Google Cloud Run.
+
+This *requires* Java version 11 to work. Our trials with former versions (v8) were unsuccessful due to failure in second stage of container build.
+
+This project was initially generated via Maven CLI as recommended by official tutorial ["Getting stated"](https://quarkus.io/guides/getting-started) on [quarkus.io](https://quarkus.io/) web site 
+
+```
 mvn io.quarkus:quarkus-maven-plugin:1.3.1.Final:create \
     -DprojectGroupId=org.acme \
     -DprojectArtifactId=getting-started \
     -DclassName="org.acme.getting.started.GreetingResource" \
     -Dpath="/hello"
+```
     
+*Changes after project generation:*
+
+A trial tp downgrade Java to version 8 via pom.xml was unsucessful in subsequent Docker build command. Stayed at version 11
+
+Created a multi-stage Dockerfile for gcp from Dockerfile.jvm. The .dockerignore file must be deleted as it hinders important artefacts to be embarked in Google Cloud remote build
+
+Dockerfile is bound to a similar version than testing machine : hence, "FROM maven:3.6-jdk-11 as builder" to select builder image in the GCP multi-stage build.
+
+Also, stage 2 must copy files from stage1 WORKDIR, hence "--from=builder" and "app/" in the COPY commands
+
+COPY --from=builder app/target/lib/* /deployments/lib/
+COPY --from=builder app/target/*-runner.jar /deployments/app.jar 
     
-https://medium.com/@alexismp/deploying-a-quarkus-app-to-google-cloud-run-c4a8ca3be526
-    
+GCP SDK must be installed (version ; Google Cloud SDK 287.0.0 as of time of writing). 
+
+The newly created Dockerfile.jvm.gcp has dependencies to Java 11 at both stages of the multi-stage build
+
+bash ./sh/gcloud-build-container.sh gcp-gae-gwt-template gcp-quarkus
+
     
 ============
 
