@@ -1,4 +1,4 @@
-<img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/quarkus-logo.svg" height="100">     <img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/google-cloud-run-logo.png" height="100">   <img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/docker-logo.png" height="100"><img src="https://github.com/didier-durand/CloudRun4Java/blob/master/img/java-logo.png" height="100">
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/quarkus-logo.svg" height="100">     <img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/google-cloud-run-logo.png" height="100">   <img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/docker-logo.png" height="100"><img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/java-logo.png" height="100">
 
 # gcp-quarkus
 
@@ -20,11 +20,29 @@ mvn io.quarkus:quarkus-maven-plugin:1.3.1.Final:create \
     
 ## Changes after project generation
 
-1. The .dockerignore file must be deleted as it hinders important artefacts to be embarked in Google Cloud remote build.
+1. The .dockerignore file in root directory must be deleted as it hinders important artefacts to be embarked in Google Cloud remote build.
 2. A multi-stage Dockerfile is added to root directory ([copy of src/main/docker/Dockerfile.jvm](https://github.com/didier-durand/gcp-quarkus/blob/master/src/main/docker/Dockerfile.jvm)).
-3  First build stage is added to run Maven on Google Cloud Build. Note: "as builder" added to be able to reference artefacts produced first stage duing second one. 
+3.  First build stage is added to run Maven on Google Cloud Build. Note: "as builder" added to be able to reference artefacts produced first stage duing second one. 
 4. Second stage (coming from initial sample) must copy files from stage1 WORKDIR, hence "--from=builder" and "app/" in the COPY commands.
 
 ## Execution on Google Cloud Platform
 
-bash ./sh/gcloud-build-container.sh gcp-gae-gwt-template gcp-quarkus
+1. make sure that you have proper credentials on GCP to launch a cloud build, store the produced Docker image & deploy the resulting service
+2. run 'bash ./sh/gcloud-build-container.sh gcp-gae-gwt-template gcp-quarkus' from project root directory to trigger remote Google Cloud build
+3. When you get final "SUCCESS" message in the build, it will contain the id of the generated docker image
+4. Go to Google Cloud Console, in submenu Cloud Build, you should see your Docker image Ready - see screenshot below
+5. Go to Google Cloud Run, you can now deploy your microservice and wait until you reach the green tick mark indicating successful deployement
+6. Click the most upper URL, which is the URL of the service and you reach the Quarkus page validating the successful deployment of the microservice, which was just triggered by the click. See screenshot below.
+
+### Google Cloud Build screenshot console showing successful creation of container image
+
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Container-Registry.jpg" height="400">
+
+### Google Cloud Run screenshot e showing successful deployment of container image as an active microservice
+
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Run.jpg" height="100">
+
+### Quarkus sample microservice response
+
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Quarkus-Success-Screen.jpg" height="100">
+
