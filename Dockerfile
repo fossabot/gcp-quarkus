@@ -1,18 +1,17 @@
-####
-# This Dockerfile is used in order to build a container that runs the Quarkus application in JVM mode
-#
-# Before building the docker image run:
-#
-# mvn package
-#
-# Then, build the image with:
-#
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/getting-started-jvm .
-#
-# Then run the container using:
-#
-# docker run -i --rm -p 8080:8080 quarkus/getting-started-jvm
-#
+####  (from original GCP Java sample Docker file - see README) 
+# Use the official maven/Java 8 image to create a build artifact.
+# https://hub.docker.com/_/maven
+FROM maven:3.6-jdk-11 as builder
+
+# Copy local code to the container image.
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+
+# Build a release artifact.
+RUN mvn package
+
+####  (from original Quarkus sample dockerfile - see README) 
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.1
 
@@ -38,8 +37,9 @@ RUN microdnf install openssl curl ca-certificates ${JAVA_PACKAGE} \
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 
-COPY target/lib/* /deployments/lib/
-COPY target/*-runner.jar /deployments/app.jar
+# Copy the jar to the production image from the builder stage.
+COPY --from=builder app/target/lib/* /deployments/lib/
+COPY --from=builder app/target/*-runner.jar /deployments/app.jar
 
 EXPOSE 8080
 USER 1001
