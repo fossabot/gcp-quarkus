@@ -1,0 +1,1 @@
+gcloud builds submit --project $1 --tag gcr.io/$1/$2
