@@ -34,15 +34,15 @@ mvn io.quarkus:quarkus-maven-plugin:1.3.1.Final:create \
 5. Go to Google Cloud Run, you can now deploy your microservice and wait until you reach the green tick mark indicating successful deployement
 6. Click the most upper URL, which is the URL of the service and you reach the Quarkus page validating the successful deployment of the microservice, which was just triggered by the click. See screenshot below.
 
-### Google Cloud Build screenshot console showing successful creation of container image
+### Google Cloud Build: successful creation of container image
 
-<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Container-Registry.jpg" height="400">
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Container-Registry.jpg" height="600">
 
-### Google Cloud Run screenshot e showing successful deployment of container image as an active microservice
+### Google Cloud Run: successful deployment of container image as an active microservice
 
-<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Run.jpg" height="100">
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Google-Cloud-Console-Run.jpg" height="600">
 
 ### Quarkus sample microservice response
 
-<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Quarkus-Success-Screen.jpg" height="100">
+<img src="https://github.com/didier-durand/gcp-quarkus/blob/master/img/Quarkus-Success-Screen.jpg" height="600">
 
